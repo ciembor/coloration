@@ -4,7 +4,7 @@ module Coloration
       @in_theme_type = "Textmate"
       @in_theme_ext = "tmTheme"
       @out_theme_type = "Geany"
-      @out_theme_ext = "geany"
+      @out_theme_ext = "conf"
       include Readers::TextMateThemeReader
       include Writers::GeanyThemeWriter
     end
