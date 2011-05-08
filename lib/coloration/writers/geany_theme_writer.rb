@@ -3,27 +3,7 @@ module Coloration
     module GeanyThemeWriter
 
       def build_result
-      
-		# [theme_info] section
-		
-        add_line("[theme_info]")
-		add_line("name=#{name}")
-		add_line("description=#{comment} (converted from TextMate to Geany with Coloration)")
-
-		add_line
-		
-		# [named_styles] section
-		#
-		# style names to use in filetypes.* [styling] sections
-		# use foreground;background;bold;italic
-		# normally background should be left blank to use the "default" style
-		
-		add_line("[named_styles]")
-		add_comment("see filetypes.common for details")
-		
-		add_line("")
-		
-		
+        
 		ui_mapping = {
 		
 		  # This is the default style. It is used for styling files without a filetype set.
@@ -54,28 +34,131 @@ module Coloration
           "current_line"		    => [ "", @ui["lineHighlight"], "true", "" ]
           
         }
-        
-		/*
+      
+		# [theme_info] section
 		
-        default=0x000000;0xffffff
-		comment=0x808080
-		commentdoc=0x404000
-		number=0x400080
-		keyword=0x600080;;true
-		keyword2=0x9f0200;;true
-		string=0x008000
-		preprocessor=0x808000
-		operator=0x300080
-		stringeol=0x000000;0xe0c0e0
-		type=0x003030;;true
-		function=0x000080
-		extra=0x404080
+        add_line("[theme_info]")
+		add_line("name=#{name}")
+		add_line("description=")
+		add_line("version=")
+		add_line("author=")
+		add_line("url=")
 		
-		*/
+		# [named_styles] section
+		#
+		# style names to use in filetypes.* [styling] sections
+		# use foreground;background;bold;italic
+		# normally background should be left blank to use the "default" style
+
+		add_line	
+		add_line("[named_styles]")
+		add_line
 		
+#		default=
+#		error=															@items["invalid"]
+		
+		add_line
+		add_comment("Editor styles")
+		add_hr
+		add_line 
+		
+#			selection=0x000000;0x676B65;false;true
+#			current_line=0x000000;0x545752;true
+#		brace_good=0x966DBE;;true
+#		brace_bad=0x2B2B2B;0xDA4939;true
+#		margin_line_number=0x2B2B2B;0xC0C0FF
+#		margin_folding=0x000000;0xdfdfdf
+#		fold_symbol_highlight=
+#		indent_guide=
+#			caret=
+#		marker_line=													@ui["invisibles"] ?
+#		marker_search=													@ui["invisibles"] ?
+#		marker_mark=													@ui["invisibles"] ?
+#			white_space=0x565656;;true
+		
+		add_line
+		add_comment("Generic programming languages")
+		add_hr
+		add_line 
+
+#		comment=0xBC9458;;;true											@items["comment"]
+#		comment_doc=comment
+#		comment_line=comment
+#		comment_line_doc=comment_doc
+#		comment_doc_keyword=comment_doc,bold
+#		comment_doc_keyword_error=comment_doc,italic
+#
+#		number=															@items["constant.numeric"]
+#		number_1=number
+#		number_2=number_1
+#
+#		type=0xDA4939;;true												@items["entity.name.type"]
+#		class=type														@items["entity.name.class"]
+#		function=0xFFC66D												@items["entity.name.function"]
+#		parameter=function												variable.parameter ?
+#
+#		keyword=0xCC7833;;true											@items["keyword"]
+#		keyword_1=keyword
+#		keyword_2=0x6D9CBE;;true
+#		keyword_3=keyword_1
+#		keyword_4=keyword_1
+#
+#		identifier=default												storage.type ?
+#		identifier_1=identifier
+#		identifier_2=identifier_1
+#		identifier_3=identifier_1
+#		identifier_4=identifier_1
+#
+#		string=															@items["string,string.quoted"]
+#		string_1=string
+#		string_2=string_1
+#		string_eol=string_1,italic
+#		character=string_1												@items["constant.character"]
+#		backtick=string_2
+#		here_doc=string_2
+#
+#		label=default,bold												@items["constant.other.symbol"]
+#		preprocessor=0xE6E1DC											other.preprocessor
+#		regex=number_1													@items["string.regexp"]
+#		operator=default												@items["keyword.operator"]
+#		decorator=string_1,bold
+#		other=default
+
+		add_line
+		add_comment("Markup-type languages")
+		add_hr
+		add_line 
+
+#		tag=type														@items["entity.name.tag"]
+#		tag_unknown=tag,bold
+#		tag_end=tag,bold
+#		attribute=keyword_1												entity.other.attribute-name
+#		attribute_unknown=attribute,bold
+#		value=string_1													constant.other ?
+#		entity=default													@items["entity"]
+		
+		add_line
+		add_comment("Diff")
+		add_hr
+		add_line 
+
+#		line_added=0xE6E1DC;0x144212
+#		line_removed=0xE6E1DC;0x660000
+#		line_changed=default
+		
+	    self.result = @lines.join("\n")		
+	    
       end
 
       protected
+
+      def add_comment(c)
+        add_line(format_comment(c))
+      end
+
+      def add_hr()
+        add_line("#-------------------------------------------------------------------------------")
+      end
 
       def add_line(line="")
         (@lines ||= []) << line

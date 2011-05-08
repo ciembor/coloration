@@ -7,12 +7,12 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = Gem::Requirement.new("~> 1.9")
   s.date = %q{2010-08-17}
-  s.authors = ["Marcin Kulik"]
+  s.authors = ["Marcin Kulik, Maciej Ciemborowicz"]
   s.email = %q{marcin.kulik@gmail.com}
   s.has_rdoc = false
   s.homepage = %q{http://github.com/sickill/coloration}
-  s.description = %q{Color scheme converters for vim, textmate, kate/kwrite, jedit}
-  s.summary = %q{Color scheme converters for vim, textmate, kate/kwrite, jedit}
+  s.description = %q{Color scheme converters for vim, textmate, kate/kwrite, jedit, geany}
+  s.summary = %q{Color scheme converters for vim, textmate, kate/kwrite, jedit, geany}
   s.executables = Dir["bin/*"].map { |f| File.basename(f) }
   s.files = Dir["bin/*"] + Dir["lib/**/*.rb"] + ["README.md"]
   s.add_dependency 'textpow19', '>= 0.11'
