@@ -31,3 +31,9 @@ class TrueClass
     1
   end
 end
+
+class Color::RGB
+  def to_hex
+    self.html.gsub("#", "0x")
+  end
+end
