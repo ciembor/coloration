@@ -27,7 +27,7 @@ module Coloration
         mapping["generic"] = {
         
           # This is the default style. It is used for styling files without a filetype set.
-          "default"                    => [ @ui["foreground"].to_hex, @ui["background"].to_hex, "false", "false" ],
+          "default"                 => [ @ui["foreground"].to_hex, @ui["background"].to_hex, "false", "false" ],
           "error"                   => (to_tuple(@items["invalid"]) || "")
 
         }
@@ -45,7 +45,7 @@ module Coloration
           
           # 3rd selection argument is true to override default foreground
           # 4th selection argument is true to override default background
-          "selection"                => [ "", @ui["selection"], "", override("selection") ],
+          "selection"               => [ "", @ui["selection"], "", override("selection") ],
           
           
           # The style for coloring the background of the current line. 
@@ -65,18 +65,18 @@ module Coloration
           
           # colour of the caret(the blinking cursor), only first and third argument is interpreted
           # set the third argument to true to change the caret into a block caret
-          "caret"                    => [ @ui["caret"], "", "false" ],
+          "caret"                   => [ @ui["caret"], "", "false" ],
           
           # The style for coloring the white space if it is shown. 
           # The first both arguments define the foreground and background colors, 
           # the third argument sets whether to use the defined foreground color 
           # or to use the color defined by each filetype for the white space. 
           # The fourth argument defines whether to use the background color.
-          "white_space"                => [ @ui["invisibles"], "", override("invisibles"), "" ],
+          "white_space"             => [ @ui["invisibles"], "", override("invisibles"), "" ],
           
-          "marker_line"             => (@ui["invisibles"] || ""),
-          "marker_search"           => (@ui["invisibles"] || ""),
-          "marker_mark"             => (@ui["invisibles"] || ""),
+          "marker_line"             => (@ui["invisibles"].to_hex || ""),
+          "marker_search"           => (@ui["invisibles"].to_hex || ""),
+          "marker_mark"             => (@ui["invisibles"].to_hex || ""),
           
         }
       
@@ -107,7 +107,7 @@ module Coloration
           "function"                => (to_tuple(@items["entity.name.function"]) || ""),
           "parameter"               => (to_tuple(@items["variable.parameter"]) || "function"),
 
-          "keyword"                 => to_tuple(@items["keyword"]),
+          "keyword"                 => (to_tuple(@items["keyword"]) || ""),
           "keyword_1"               => "keyword",
           "keyword_2"               => "keyword_1",
           "keyword_3"               => "keyword_1",
@@ -217,13 +217,10 @@ module Coloration
                   value.to_s
               end
             end
-            
             # add name= and values separated by ';', then cut not necessary ';' from the end of line
-            "#{name}=#{tuple.join(';').gsub(/;*$/, '')}"
-          
+            return "#{name}=#{tuple.join(';').gsub(/;*$/, '')}"
           else
-            "#{name}=#{tuple}"
-          
+            return "#{name}=#{tuple}"
         end
         
       end
@@ -237,7 +234,7 @@ module Coloration
           when Style
             return [ style.foreground, style.background, style.bold, style.italic ]
           else
-            return 
+            return nil
         end
       end
 
