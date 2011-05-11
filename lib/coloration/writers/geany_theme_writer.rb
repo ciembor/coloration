@@ -3,44 +3,21 @@ module Coloration
     module GeanyThemeWriter
 
       def build_result
-      
-        # [theme_info] #################################################
-        
-        add_line("[theme_info]")
-        add_line("name=#{name}")
-        add_line("description=")
-        add_line("version=")
-        add_line("author=")
-        add_line("url=")
-        
-        # [named_styles] ###############################################
-        #
-        # style names to use in filetypes.* [styling] sections
-        # use foreground;background;bold;italic
-        # normally background should be left blank to use the "default" style
-        
-        add_line    
-        add_line("[named_styles]")
-        add_line
+
+	################################################################
+	########################## Mapping #############################
+	################################################################
 
         mapping = Hash.new
+	
         mapping["generic"] = {
         
           # This is the default style. It is used for styling files without a filetype set.
           "default"                 => [ @ui["foreground"].to_hex, @ui["background"].to_hex, "false", "false" ],
-          "error"                   => (to_tuple(@items["invalid"]) || "")
+          "error"                   => (@items["invalid"] || "")
 
         }
         
-        add_section(mapping["generic"])
-        
-        # Editor styles ################################################
-        
-        add_line
-        add_comment("Editor styles")
-        add_hr
-        add_line
-
         mapping["editor_styles"] = {
           
           # 3rd selection argument is true to override default foreground
@@ -60,7 +37,7 @@ module Coloration
           "brace_bad"               => "",
           "margin_line_number"      => "",
           "margin_folding"          => "",
-          "fold_symbol_highlight"   => "",
+          "fold_symbol_highlight"   => (@ui["background"].to_hex || ""),
           "indent_guide"            => "",
           
           # colour of the caret(the blinking cursor), only first and third argument is interpreted
@@ -80,6 +57,100 @@ module Coloration
           
         }
       
+        mapping["programming_languages"] = {
+
+          "comment"                 => (@items["comment"] || ""),
+          "comment_doc"             => "comment",
+          "comment_line"            => "comment",
+          "comment_line_doc"        => "comment_doc",
+          "comment_doc_keyword"     => "comment_doc,bold",
+          "comment_doc_keyword_error" => "comment_doc,italic",
+
+          "number"                  => (@items["constant.numeric"] || ""),
+          "number_1"                => "number",
+          "number_2"                => "number_1",
+
+          "type"                    => (@items["entity.name.type"] || ""),
+          "class"                   => (@items["entity.name.class"] || "type"),
+          "function"                => (@items["entity.name.function"] || ""),
+          "parameter"               => (@items["variable.parameter"] || "function"),
+
+          "keyword"                 => (@items["keyword.control"] || @items["keyword"] || ""),
+          "keyword_1"               => (@items["keyword"] || "keyword"),
+          "keyword_2"               => (@items["support.function"] || "keyword_1"),
+          "keyword_3"               => (@items["constant.language"] || "keyword_1"),
+          "keyword_4"               => (@items["variable.other"] || "keyword_1"),
+
+          "identifier"              => "default",
+         # "identifier"              => (@items["storage.type"] || "default"),
+          "identifier_1"            => "identifier",
+          "identifier_2"            => "identifier_1",
+          "identifier_3"            => "identifier_1",
+          "identifier_4"            => "identifier_1",
+
+          "string"                  => (@items["string,string.quoted"] || ""),
+          "string_1"                => "string",
+          "string_2"                => "string_1",
+          "string_eol"              => "string_1,italic",
+          "character"               => (@items["constant.character"] || "string_1"),
+          "backtick"                => "string_2",
+          "here_doc"                => "string_2",
+          
+          "label"                   => (@items["constant.other.symbol"] || "default,bold"),
+          "preprocessor"            => (@items["other.preprocessor"] || @items["keyword.other"] || ""),
+          "regex"                   => (@items["string.regexp"] || "number_1"),
+          "operator"                => (@items["keyword.operator"] || "default"),
+          "decorator"               => "string_1,bold",
+          "other"                   => "default",
+
+        }
+
+        mapping["markup_languages"] = {  
+        
+          "tag"                     => (@items["entity.name.tag"] || @items["meta.tag"] || "type"),
+          "tag_unknown"             => "tag,bold",
+          "tag_end"                 => "tag,bold",
+          "attribute"               => (@items["entity.other.attribute-name"] || "keyword_1"),
+          "attribute_unknown"       => "attribute,bold",
+          "value"                   => (@items["constant.other"] || "string_1"),
+          "entity"                  => (@items["entity"] || ""),
+          
+        }
+
+        mapping["diff"] = {  
+        
+          "line_added"              => "",
+          "line_removed"            => "error",
+          "line_changed"            => "",
+          
+        }
+        
+	################################################################
+	########################## Writing #############################
+	################################################################
+	      
+        # [theme_info] #################################################
+        
+        add_line("[theme_info]")
+        add_line("name=#{name}")
+        add_line("description=")
+        add_line("version=")
+        add_line("author=")
+        add_line("url=")
+        
+        # [named_styles] ###############################################
+        
+        add_line    
+        add_line("[named_styles]")
+        add_line
+	add_section(mapping["generic"])
+        
+        # Editor styles ################################################
+        
+        add_line
+        add_comment("Editor styles")
+        add_hr
+        add_line
         add_section(mapping["editor_styles"])
         
         # Programming languages ########################################
@@ -88,54 +159,6 @@ module Coloration
         add_comment("Programming languages")
         add_hr
         add_line 
-
-        mapping["programming_languages"] = {
-
-          "comment"                 => (to_tuple(@items["comment"]) || ""),
-          "comment_doc"             => "comment",
-          "comment_line"            => "comment",
-          "comment_line_doc"        => "comment_doc",
-          "comment_doc_keyword"     => "comment_doc,bold",
-          "comment_doc_keyword_error" => "comment_doc,italic",
-
-          "number"                  => (to_tuple(@items["constant.numeric"]) || ""),
-          "number_1"                => "number",
-          "number_2"                => "number_1",
-
-          "type"                    => (to_tuple(@items["entity.name.type"]) || ""),
-          "class"                   => (to_tuple(@items["entity.name.class"]) || "type"),
-          "function"                => (to_tuple(@items["entity.name.function"]) || ""),
-          "parameter"               => (to_tuple(@items["variable.parameter"]) || "function"),
-
-          "keyword"                 => (to_tuple(@items["keyword"]) || ""),
-          "keyword_1"               => "keyword",
-          "keyword_2"               => "keyword_1",
-          "keyword_3"               => "keyword_1",
-          "keyword_4"               => "keyword_1",
-
-          "identifier"              => (to_tuple(@items["storage.type"]) || "default"),
-          "identifier_1"            => "identifier",
-          "identifier_2"            => "identifier_1",
-          "identifier_3"            => "identifier_1",
-          "identifier_4"            => "identifier_1",
-
-          "string"                  => (to_tuple(@items["string,string.quoted"]) || ""),
-          "string_1"                => "string",
-          "string_2"                => "string_1",
-          "string_eol"              => "string_1,italic",
-          "character"               => (to_tuple(@items["constant.character"]) || "string_1"),
-          "backtick"                => "string_2",
-          "here_doc"                => "string_2",
-          
-          "label"                   => (to_tuple(@items["constant.other.symbol"]) || "default,bold"),
-          "preprocessor"            => (to_tuple(@items["other.preprocessor"]) || ""),
-          "regex"                   => (to_tuple(@items["string.regexp"]) || "number_1"),
-          "operator"                => (to_tuple(@items["keyword.operator"]) || "default"),
-          "decorator"               => "string_1,bold",
-          "other"                   => "default",
-
-        }
-
         add_section(mapping["programming_languages"])
              
         # Markup languages #############################################
@@ -144,19 +167,6 @@ module Coloration
         add_comment("Markup-type languages")
         add_hr
         add_line 
-
-        mapping["markup_languages"] = {  
-        
-          "tag"                     => (to_tuple(@items["entity.name.tag"]) || "type"),
-          "tag_unknown"             => "tag,bold",
-          "tag_end"                 => "tag,bold",
-          "attribute"               => (to_tuple(@items["entity.other.attribute-name"]) || "keyword_1"),
-          "attribute_unknown"       => "attribute,bold",
-          "value"                   => (to_tuple(@items["constant.other"]) || "string_1"),
-          "entity"                  => (to_tuple(@items["entity"]) || ""),
-          
-        }
-        
         add_section(mapping["markup_languages"])
         
         # Diff #########################################################
@@ -165,17 +175,8 @@ module Coloration
         add_comment("Diff")
         add_hr
         add_line 
-
-        mapping["diff"] = {  
-        
-          "line_added"              => "",
-          "line_removed"            => "",
-          "line_changed"            => "",
-          
-        }
-        
-        add_section(mapping["diff"])
-        
+	add_section(mapping["diff"])
+	
         self.result = @lines.join("\n")        
         
       end
@@ -204,10 +205,12 @@ module Coloration
         end
       end
       
-      def format_tuple(name, tuple)
-        
+      def format_tuple(name, tuple)        
+	if tuple.is_a?(Style) 
+	  tuple = [ tuple.foreground, tuple.background, tuple.bold, tuple.italic ]
+	end
+	
         case tuple
-          
           when Array
             tuple.collect! do |value|
               case value
@@ -222,20 +225,10 @@ module Coloration
           else
             return "#{name}=#{tuple}"
         end
-        
       end
 
       def format_comment(text)
         "# #{text}"
-      end
-
-      def to_tuple(style)
-        case style
-          when Style
-            return [ style.foreground, style.background, style.bold, style.italic ]
-          else
-            return nil
-        end
       end
 
     end
