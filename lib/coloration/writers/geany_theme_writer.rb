@@ -14,7 +14,7 @@ module Coloration
         
           # This is the default style. It is used for styling files without a filetype set.
           "default"                 => [ @ui["foreground"].to_hex, @ui["background"].to_hex, "false", "false" ],
-          "error"                   => (@items["invalid"] || "")
+          "error"                   => @items["invalid"] || ""
 
         }
         
@@ -59,47 +59,47 @@ module Coloration
       
         mapping["programming_languages"] = {
 
-          "comment"                 => (@items["comment"] || ""),
+          "comment"                 => @items["comment"] || "",
           "comment_doc"             => "comment",
           "comment_line"            => "comment",
           "comment_line_doc"        => "comment_doc",
           "comment_doc_keyword"     => "comment_doc,bold",
           "comment_doc_keyword_error" => "comment_doc,italic",
 
-          "number"                  => (@items["constant.numeric"] || ""),
+          "number"                  => @items["constant.numeric"] || "",
           "number_1"                => "number",
           "number_2"                => "number_1",
 
-          "type"                    => (@items["entity.name.type"] || ""),
-          "class"                   => (@items["entity.name.class"] || "type"),
-          "function"                => (@items["entity.name.function"] || ""),
-          "parameter"               => (@items["variable.parameter"] || "function"),
+          "type"                    => @items["entity.name.type"] || "",
+          "class"                   => @items["entity.name.class"] || "type",
+          "function"                => @items["entity.name.function"] || "",
+          "parameter"               => @items["variable.parameter"] || "function",
 
-          "keyword"                 => (@items["keyword.control"] || @items["keyword"] || ""),
-          "keyword_1"               => (@items["keyword"] || "keyword"),
-          "keyword_2"               => (@items["support.function"] || "keyword_1"),
-          "keyword_3"               => (@items["constant.language"] || "keyword_1"),
-          "keyword_4"               => (@items["variable.other"] || "keyword_1"),
+          "keyword"                 => @items["keyword.control"] || @items["keyword"] || "",
+          "keyword_1"               => @items["keyword"] || "keyword",
+          "keyword_2"               => @items["support.function"] || "keyword_1",
+          "keyword_3"               => @items["constant.language"] || "keyword_1",
+          "keyword_4"               => @items["variable.other"] || "keyword_1",
 
           "identifier"              => "default",
-         # "identifier"              => (@items["storage.type"] || "default"),
+         # "identifier"              => @items["storage.type"] || "default",
           "identifier_1"            => "identifier",
           "identifier_2"            => "identifier_1",
           "identifier_3"            => "identifier_1",
           "identifier_4"            => "identifier_1",
 
-          "string"                  => (@items["string,string.quoted"] || ""),
+          "string"                  => @items["string,string.quoted"] || "",
           "string_1"                => "string",
           "string_2"                => "string_1",
           "string_eol"              => "string_1,italic",
-          "character"               => (@items["constant.character"] || "string_1"),
+          "character"               => @items["constant.character"] || "string_1",
           "backtick"                => "string_2",
           "here_doc"                => "string_2",
           
-          "label"                   => (@items["constant.other.symbol"] || "default,bold"),
-          "preprocessor"            => (@items["other.preprocessor"] || @items["keyword.other"] || ""),
-          "regex"                   => (@items["string.regexp"] || "number_1"),
-          "operator"                => (@items["keyword.operator"] || "default"),
+          "label"                   => @items["constant.other.symbol"] || "default,bold",
+          "preprocessor"            => @items["other.preprocessor"] || @items["keyword.other"] || "",
+          "regex"                   => @items["string.regexp"] || "number_1",
+          "operator"                => @items["keyword.operator"] || "default",
           "decorator"               => "string_1,bold",
           "other"                   => "default",
 
@@ -107,13 +107,13 @@ module Coloration
 
         mapping["markup_languages"] = {  
         
-          "tag"                     => (@items["entity.name.tag"] || @items["meta.tag"] || "type"),
+          "tag"                     => @items["entity.name.tag"] || @items["meta.tag"] || "type",
           "tag_unknown"             => "tag,bold",
           "tag_end"                 => "tag,bold",
-          "attribute"               => (@items["entity.other.attribute-name"] || "keyword_1"),
+          "attribute"               => @items["entity.other.attribute-name"] || "keyword_1",
           "attribute_unknown"       => "attribute,bold",
-          "value"                   => (@items["constant.other"] || "string_1"),
-          "entity"                  => (@items["entity"] || ""),
+          "value"                   => @items["constant.other"] || "string_1",
+          "entity"                  => @items["entity"] || "",
           
         }
 
