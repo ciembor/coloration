@@ -37,7 +37,7 @@ module Coloration
           "brace_bad"               => "",
           "margin_line_number"      => "",
           "margin_folding"          => "",
-          "fold_symbol_highlight"   => (@ui["background"].to_hex || ""),
+          "fold_symbol_highlight"   => @ui["background"].to_hex || "",
           "indent_guide"            => "",
           
           # colour of the caret(the blinking cursor), only first and third argument is interpreted
@@ -51,9 +51,9 @@ module Coloration
           # The fourth argument defines whether to use the background color.
           "white_space"             => [ @ui["invisibles"], "", override("invisibles"), "" ],
           
-          "marker_line"             => (@ui["invisibles"].to_hex || ""),
-          "marker_search"           => (@ui["invisibles"].to_hex || ""),
-          "marker_mark"             => (@ui["invisibles"].to_hex || ""),
+          "marker_line"             => @ui["invisibles"].to_hex || "",
+          "marker_search"           => @ui["invisibles"].to_hex || "",
+          "marker_mark"             => @ui["invisibles"].to_hex || "",
           
         }
       
